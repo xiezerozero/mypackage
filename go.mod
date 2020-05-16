@@ -1,3 +1,3 @@
-module github.com/xiezerozero/gomod
+module github.com/xiezerozero/mypackage
 
 go 1.12
