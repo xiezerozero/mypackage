@@ -23,10 +23,7 @@ type Worker struct {
 func (w Worker) Work(wp *WorkerPool) {
 	for {
 		wp.WorkerQueue <- w
-		select {
-		case j := <-w.Ch:
-			w.doJob(j, wp)
-		}
+		j := <-w.Ch
 	}
 }
 
