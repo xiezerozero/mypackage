@@ -24,6 +24,7 @@ func (w Worker) Work(wp *WorkerPool) {
 	for {
 		wp.WorkerQueue <- w
 		j := <-w.Ch
+		w.doJob(j, wp)
 	}
 }
 
@@ -61,11 +62,4 @@ func (wp *WorkerPool) Start() {
 	// 同步所有任务完成并且job chan关闭
 	wg.Wait()
 	close(wp.ResultCh)
-}
-
-func App(s1, s2 string) []string {
-	s := []string{}
-	s = append(s, s1)
-	s = append(s, s2)
-	return s
 }
