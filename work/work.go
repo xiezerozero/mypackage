@@ -65,3 +65,10 @@ func (wp *WorkerPool) Start() {
 	wg.Wait()
 	close(wp.ResultCh)
 }
+
+func App(s1, s2 string) []string {
+	s := []string{}
+	s = append(s, s1)
+	s = append(s, s2)
+	return s
+}
