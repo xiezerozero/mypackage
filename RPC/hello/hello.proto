@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package greeter;
+
+option go_package="/goods";    // 定义go 包名
+
+service Greeter {
+  rpc SayHello (HelloRequest) returns (HelloReply) {}
+}
+message HelloRequest {
+  string name = 1;
+}
+message HelloReply {
+  string message = 1;
+}
+
+
+// 当前目录生成pb.go文件  protoc --go_out=plugins=grpc:./ hello.proto
+// protoc --go_out=plugins=grpc:./ hello/hello.proto  上级目录执行,生成goods/hello.pb.go, go_package指定报名
