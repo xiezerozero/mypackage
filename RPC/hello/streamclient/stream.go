@@ -21,6 +21,17 @@ func main() {
 
 	client := hello.NewGreeterClient(conn)
 	ctx := context.Background()
-	reply, _ := client.SayHello(ctx, &hello.HelloRequest{})
-	fmt.Println(reply.Message)
+	//reply, _ := client.SayHello(ctx, &hello.HelloRequest{})
+	stream, err := client.SayStreamHello(ctx, &hello.HelloRequest{})
+	if err != nil {
+		fmt.Println("SayStreamHello error", err.Error())
+	}
+	for {
+		reply, e := stream.Recv()
+		if e != nil {
+			fmt.Println("error:", e.Error())
+			break
+		}
+		fmt.Println(reply.Message)
+	}
 }

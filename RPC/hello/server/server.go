@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"github.com/xiezerozero/mypackage/RPC/hello"
 	"google.golang.org/grpc"
 	"log"
@@ -12,6 +13,19 @@ import (
 var count int
 
 type Server struct {
+}
+
+func (s Server) SayStreamHello(request *hello.HelloRequest, server hello.Greeter_SayStreamHelloServer) error {
+	go func() {
+		fmt.Println("new request")
+		for i := 0; i < 10; i++ {
+			e := server.Send(&hello.HelloReply{Message: strconv.Itoa(i)})
+			if e != nil {
+				fmt.Println("error", e.Error())
+			}
+		}
+	}()
+	return nil
 }
 
 func (s Server) SayHello(ctx context.Context, request *hello.HelloRequest) (*hello.HelloReply, error) {

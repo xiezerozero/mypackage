@@ -12,3 +12,7 @@
  -I 指定proto所在的目录  
   --go_out生成go的目录(proto里面定义了go_package会相应使用子目录,这里定义为/pb,会在./pb下生成go文件)
   最后指定proto文件
+  
+* // 当前目录生成pb.go文件  protoc --go_out=plugins=grpc:./ hello.proto  
+  // protoc --go_out=plugins=grpc:./ hello/hello.proto  上级目录执行,生成goods/hello.pb.go, go_package指定包名
+  // plugins=grpc, 以grpc插件的形式生成pb.go文件
