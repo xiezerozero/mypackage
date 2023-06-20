@@ -12,3 +12,9 @@ func (c *Calculator) Double(inputs ...int) int {
 	r := c.total.Total(inputs...)
 	return r * 2
 }
+
+//go:generate mockery --name Stringer
+// mockery --name=Stringer
+type Stringer interface {
+	String() string
+}
