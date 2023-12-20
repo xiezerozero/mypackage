@@ -3,8 +3,11 @@ package main
 import (
 	"bytes"
 	"compress/gzip"
+	"encoding/json"
 	"fmt"
 	"github.com/go-redis/redis/v7"
+	"github.com/golang/protobuf/proto"
+	protoEntity "github.com/xiezerozero/mypackage/demo/proto"
 	"io"
 	"io/ioutil"
 	"net/http"
@@ -63,7 +66,7 @@ func decompress() {
 func requestGzip() {
 	client := new(http.Client)
 
-	request, err := http.NewRequest("GET", "http://127.0.0.1:8198/3rd/gprograms?token=d1606c8aca9fab32583d1b26d8b1fe3d&from=171066&tm=1690859374503&date=20230731&cid=zj-ckvz4pkryuio", nil)
+	request, err := http.NewRequest("GET", "http://cdntest.api.dianshihome.com/api/gprograms?cid=zj-ckvz4pkryuio&date=20230831&uuuuut=0", nil)
 	request.Header.Add("Accept-Encoding", "gzip")
 
 	resp, err := client.Do(request)
@@ -87,8 +90,13 @@ func requestGzip() {
 		reader = io.NopCloser(bytes.NewReader(rawByte))
 	}
 
-	n, _ := io.Copy(os.Stdout, reader) // print html to standard out
-	fmt.Println("ungzip read bytes: ", n)
+	pb, _ := ioutil.ReadAll(reader)
+	pr := &protoEntity.ProgramResponse{}
+	proto.Unmarshal(pb, pr)
+	jsonByte, _ := json.Marshal(pr)
+	io.Copy(os.Stdout, bytes.NewReader(jsonByte)) // print html to standard out
+	fmt.Println("ungzip read bytes: ", len(pb))
+	//fmt.Printf("%#+v", pr)
 }
 
 func UnGzip(compressContent string) ([]byte, error) {
