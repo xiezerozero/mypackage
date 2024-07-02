@@ -13,13 +13,13 @@ type Number interface {
 }
 
 func Max[T Number](a ...T) T {
-	var max T
+	var m T
 	for _, v := range a {
-		if v > max {
-			max = v
+		if v > m {
+			m = v
 		}
 	}
-	return max
+	return m
 }
 
 type Age int //Age底层是int, ~int 满足,可直接使用Age类型调用Add方法,如果未定义~int, Age类型调用编译不过
